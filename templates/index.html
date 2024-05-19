@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hitung SNBP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script defer>
+        async function hitungSNBP() {
+            const nama = document.getElementById('nama').value;
+            const nisn = document.getElementById('nisn').value;
+            const ns1 = parseFloat(document.getElementById('NS1').value);
+            const ns2 = parseFloat(document.getElementById('NS2').value);
+            const ns3 = parseFloat(document.getElementById('NS3').value);
+            const ns4 = parseFloat(document.getElementById('NS4').value);
+            const ns5 = parseFloat(document.getElementById('NS5').value);
+            const hasCertificate = document.getElementById('hasCertificate').checked;
+            const certificateType = hasCertificate ? parseFloat(document.getElementById('certificateType').value) : 0;
+
+            if (isNaN(ns1) || isNaN(ns2) || isNaN(ns3) || isNaN(ns4) || isNaN(ns5)) {
+                alert("Harap masukkan semua nilai semester dengan benar.");
+                return;
+            }
+
+            const response = await fetch('/calculate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nama, nisn, ns1, ns2, ns3, ns4, ns5, certificate_type: certificateType })
+            });
+
+            const result = await response.json();
+            document.getElementById('result').innerHTML = `
+                Nama: ${result.nama}<br>
+                NISN: ${result.nisn}<br>
+                Rata-rata Nilai: ${result.rata_rata}<br>
+                ${result.kelulusan}
+            `;
+            document.getElementById('resultModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('resultModal').style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Hitung SNBP</h1>
+        <form id="snbpForm" onsubmit="event.preventDefault(); hitungSNBP();">
+            <label>Nama Peserta Didik: <input type="text" id="nama" required></label><br>
+            <label>NISN: <input type="text" id="nisn" required></label><br>
+            <label>Nilai Semester 1: <input type="number" id="NS1" max="100" required></label><br>
+            <label>Nilai Semester 2: <input type="number" id="NS2" max="100" required></label><br>
+            <label>Nilai Semester 3: <input type="number" id="NS3" max="100" required></label><br>
+            <label>Nilai Semester 4: <input type="number" id="NS4" max="100" required></label><br>
+            <label>Nilai Semester 5: <input type="number" id="NS5" max="100" required></label><br>
+            <label>Ada Sertifikat Prestasi? <input type="checkbox" id="hasCertificate" onchange="document.getElementById('certificateSection').style.display = this.checked ? 'block' : 'none';"></label><br>
+            <div id="certificateSection" style="display: none;">
+                <label>Jenis Sertifikat Prestasi:
+                    <select id="certificateType">
+                        <option value="0">Tidak Ada</option>
+                        <option value="6">Internasional</option>
+                        <option value="5.5">Nasional Juara 1</option>
+                        <option value="5">Nasional Juara 2</option>
+                        <option value="4.5">Nasional Juara 3</option>
+                        <option value="4">Provinsi Juara 1</option>
+                        <option value="3.5">Provinsi Juara 2</option>
+                        <option value="3">Provinsi Juara 3</option>
+                        <option value="2.5">Kabupaten/Kota Juara 1</option>
+                        <option value="2">Kabupaten/Kota Juara 2</option>
+                        <option value="1.5">Kabupaten/Kota Juara 3</option>
+                    </select>
+                </label><br>
+            </div>
+            <button type="submit">Hitung SNBP</button>
+        </form>
+        <div id="resultModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeModal()">&times;</span>
+                <h2 id="result"></h2>
+            </div>
+        </div>
+    </div>
+    <div class="title-container">
+        <h1>Judul</h1>
+        <h2>Subjudul</h2>
+    </div>
+</body>
+</html>
