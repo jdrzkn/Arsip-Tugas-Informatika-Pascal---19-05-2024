@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informatika Pascal</title>
+    <link rel="stylesheet" href="desain.css">
+    <script src="hitungSNBP.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Hitung SNBP</h1>
+        <form id="snbpForm">
+            <label>Nama Peserta Didik: <input type="text" id="nama" required></label><br>
+            <label>NISN: <input type="text" id="nisn" required></label><br>
+            <label>Nilai Semester 1: <input type="number" id="NS1" max="100" required></label><br>
+            <label>Nilai Semester 2: <input type="number" id="NS2" max="100" required></label><br>
+            <label>Nilai Semester 3: <input type="number" id="NS3" max="100" required></label><br>
+            <label>Nilai Semester 4: <input type="number" id="NS4" max="100" required></label><br>
+            <label>Nilai Semester 5: <input type="number" id="NS5" max="100" required></label><br>
+            <label>Masukkan Sertifikat Prestasi<input type="checkbox" id="hasCertificate"></label><br>
+            <div id="certificateSection" style="display: none;">
+                <label>Jenis Sertifikat Prestasi:
+                    <select id="certificateType">
+                        <option value="0">Tidak Ada</option>
+                        <option value="6">Internasional</option>
+                        <option value="5.5">Nasional Juara 1</option>
+                        <option value="5">Nasional Juara 2</option>
+                        <option value="4.5">Nasional Juara 3</option>
+                        <option value="4">Provinsi Juara 1</option>
+                        <option value="3.5">Provinsi Juara 2</option>
+                        <option value="3">Provinsi Juara 3</option>
+                        <option value="2.5">Kabupaten/Kota Juara 1</option>
+                        <option value="2">Kabupaten/Kota Juara 2</option>
+                        <option value="1.5">Kabupaten/Kota Juara 3</option>
+                    </select>
+                </label><br>
+            </div>
+            <button type="button" onclick="hitungSNBP()">Akumulasi SNBP</button>
+        </form>
+        <div id="resultModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeModal()">&times;</span>
+                <h2 id="result"></h2>
+            </div>
+        </div>
+    </div>
+    <div class="title-container">
+        <h1>Judul</h1>
+        <h2>Subjudul</h2>
+    </div>
+</body>
+</html>
